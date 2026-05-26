@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoteLogic</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#0f172a;
+    color:white;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:#1e293b;
+    padding:25px;
+    border-radius:12px;
+}
+
+h1{
+    text-align:center;
+    color:#60a5fa;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-top:15px;
+    font-size:16px;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+select{
+    padding:8px;
+    border-radius:6px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th, td{
+    border:1px solid #334155;
+    padding:12px;
+    text-align:center;
+}
+
+th{
+    background:#334155;
+}
+
+.resultado{
+    margin-top:25px;
+    background:#111827;
+    padding:20px;
+    border-radius:10px;
+}
+
+.kmap td{
+    width:80px;
+    height:80px;
+    font-size:22px;
+}
+
+.destaque{
+    background:#2563eb;
+}
+
+.info-kmap{
+    margin-top:20px;
+    background:#0f172a;
+    padding:20px;
+    border-radius:10px;
+}
+
+.resultado-final{
+    font-size:28px;
+    color:#60a5fa;
+    font-weight:bold;
+}
+
+small{
+    font-size:12px;
+    opacity:0.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>VoteLogic</h1>
+
+    <p>
+        Sistema de votação acadêmico utilizando:
+    </p>
+
+    <ul>
+        <li>Tabela Verdade</li>
+        <li>Mintermos</li>
+        <li>Maxtermos</li>
+        <li>Mapa de Karnaugh</li>
+        <li>Simplificação Booleana</li>
+    </ul>
+
+    <label for="variaveis">
+        Quantidade de Variáveis:
+    </label>
+
+    <select id="variaveis">
+        <option value="2">2 Variáveis</option>
+        <option value="3">3 Variáveis</option>
+        <option value="4">4 Variáveis</option>
+    </select>
+
+    <br>
+
+    <button id="btnGerar">
+        Gerar Sistema
+    </button>
+
+    <div id="tabela"></div>
+
+    <div id="resultado" class="resultado" style="display:none;">
+
+        <h2>Resultado Lógico</h2>
+
+        <p>
+            <strong>Mintermos:</strong>
+            <span id="mintermos"></span>
+        </p>
+
+        <p>
+            <strong>Maxtermos:</strong>
+            <span id="maxtermos"></span>
+        </p>
+
+        <p>
+            <strong>Mintermos Literais:</strong>
+            <span id="mintermosLiterais"></span>
+        </p>
+
+        <p>
+            <strong>Maxtermos Literais:</strong>
+            <span id="maxtermosLiterais"></span>
+        </p>
+
+        <p>
+            <strong>Expressão Booleana:</strong>
+            <span id="expressao"></span>
+        </p>
+
+        <p>
+            <strong>Expressão Simplificada:</strong>
+            <span id="simplificada"></span>
+        </p>
+
+        <div id="karnaugh"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+const letras = ['A', 'B', 'C', 'D'];
+
+const btnGerar =
+document.getElementById("btnGerar");
+
+btnGerar.addEventListener(
+    "click",
+    gerarTabela
+);
+
+function gerarTabela(){
+
+    const n = parseInt(
+        document.getElementById("variaveis").value
+    );
+
+    const linhas = Math.pow(2, n);
+
+    let html = `
+        <table>
+            <tr>
+    `;
+
+    for(let i = 0; i < n; i++){
+        html += `<th>${letras[i]}</th>`;
+    }
+
+    html += `
+            <th>Registrar Voto</th>
+            </tr>
+    `;
+
+    for(let i = 0; i < linhas; i++){
+
+        const binario =
+        i.toString(2).padStart(n, '0');
+
+        html += `<tr>`;
+
+        for(let bit of binario){
+            html += `<td>${bit}</td>`;
+        }
+
+        html += `
+            <td>
+                <select id="v${i}">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </td>
+        `;
+
+        html += `</tr>`;
+    }
+
+    html += `
+        </table>
+
+        <button id="btnProcessar">
+            Processar Votação
+        </button>
+    `;
+
+    document.getElementById("tabela").innerHTML =
+    html;
+
+    document
+    .getElementById("btnProcessar")
+    .addEventListener("click", calcular);
+}
+
+function calcular(){
+
+    const n = parseInt(
+        document.getElementById("variaveis").value
+    );
+
+    const linhas = Math.pow(2, n);
+
+    let mintermos = [];
+    let maxtermos = [];
+
+    for(let i = 0; i < linhas; i++){
+
+        const valor =
+        document.getElementById(`v${i}`).value;
+
+        if(valor === "1"){
+            mintermos.push(i);
+        }else{
+            maxtermos.push(i);
+        }
+    }
+
+    document.getElementById("resultado")
+    .style.display = "block";
+
+    document.getElementById("mintermos")
+    .textContent =
+    `Σ(${mintermos.join(", ")})`;
+
+    document.getElementById("maxtermos")
+    .textContent =
+    `Π(${maxtermos.join(", ")})`;
+
+    document.getElementById("mintermosLiterais")
+    .textContent =
+    gerarMintermosLiterais(mintermos, n);
+
+    document.getElementById("maxtermosLiterais")
+    .textContent =
+    gerarMaxtermosLiterais(maxtermos, n);
+
+    document.getElementById("expressao")
+    .textContent =
+    gerarExpressao(mintermos, n);
+
+    document.getElementById("simplificada")
+    .textContent =
+    simplificarKarnaugh(mintermos, n);
+
+    gerarMapa(mintermos, n);
+}
+
+function gerarMintermosLiterais(mintermos, n){
+
+    if(mintermos.length === 0){
+        return "Nenhum mintermo";
+    }
+
+    let resultado = [];
+
+    for(let termo of mintermos){
+
+        const binario =
+        termo.toString(2).padStart(n, '0');
+
+        let parte = '';
+
+        for(let i = 0; i < n; i++){
+
+            if(binario[i] === '1'){
+                parte += letras[i];
+            }else{
+                parte += letras[i] + "'";
+            }
+        }
+
+        resultado.push(parte);
+    }
+
+    return resultado.join(' + ');
+}
+
+function gerarMaxtermosLiterais(maxtermos, n){
+
+    if(maxtermos.length === 0){
+        return "Nenhum maxtermo";
+    }
+
+    let resultado = [];
+
+    for(let termo of maxtermos){
+
+        const binario =
+        termo.toString(2).padStart(n, '0');
+
+        let parte = '(';
+
+        for(let i = 0; i < n; i++){
+
+            if(binario[i] === '0'){
+                parte += letras[i];
+            }else{
+                parte += letras[i] + "'";
+            }
+
+            if(i < n - 1){
+                parte += ' + ';
+            }
+        }
+
+        parte += ')';
+
+        resultado.push(parte);
+    }
+
+    return resultado.join(' ');
+}
+
+function gerarExpressao(mintermos, n){
+
+    if(mintermos.length === 0){
+        return 'F = 0';
+    }
+
+    if(mintermos.length === Math.pow(2, n)){
+        return 'F = 1';
+    }
+
+    let resultado = [];
+
+    for(let termo of mintermos){
+
+        const binario =
+        termo.toString(2).padStart(n, '0');
+
+        let parte = '';
+
+        for(let i = 0; i < n; i++){
+
+            if(binario[i] === '1'){
+                parte += letras[i];
+            }else{
+                parte += letras[i] + "'";
+            }
+        }
+
+        resultado.push(parte);
+    }
+
+    return 'F = ' + resultado.join(' + ');
+}
+
+function simplificarKarnaugh(mintermos, n){
+
+    if(mintermos.length === 0){
+        return 'F = 0';
+    }
+
+    if(mintermos.length === Math.pow(2, n)){
+        return 'F = 1';
+    }
+
+    if(n === 2){
+
+        const ordenado =
+        [...mintermos].sort((a,b) => a-b);
+
+        const texto =
+        JSON.stringify(ordenado);
+
+        if(texto === JSON.stringify([1,3])){
+            return 'F = B';
+        }
+
+        if(texto === JSON.stringify([2,3])){
+            return 'F = A';
+        }
+
+        if(texto === JSON.stringify([0,1])){
+            return "F = A'";
+        }
+
+        if(texto === JSON.stringify([0,2])){
+            return "F = B'";
+        }
+    }
+
+    return 'Sem simplificação automática';
+}
+
+function gerarMapa(mintermos, n){
+
+    const div =
+    document.getElementById("karnaugh");
+
+    const gray2 = ['0', '1'];
+
+    const gray4 = ['00', '01', '11', '10'];
+
+    let linhas = [];
+    let colunas = [];
+
+    if(n === 2){
+
+        linhas = gray2;
+        colunas = gray2;
+    }
+
+    else if(n === 3){
+
+        linhas = gray2;
+        colunas = gray4;
+    }
+
+    else if(n === 4){
+
+        linhas = gray4;
+        colunas = gray4;
+    }
+
+    let html = `
+        <h2>Mapa de Karnaugh</h2>
+
+        <table class="kmap">
+    `;
+
+    html += '<tr>';
+
+    if(n === 2){
+
+        html += '<th>A\\B</th>';
+    }
+
+    else if(n === 3){
+
+        html += '<th>A\\BC</th>';
+    }
+
+    else{
+
+        html += '<th>AB\\CD</th>';
+    }
+
+    for(let coluna of colunas){
+
+        html += `
+            <th>${coluna}</th>
+        `;
+    }
+
+    html += '</tr>';
+
+    for(let linha of linhas){
+
+        html += '<tr>';
+
+        html += `
+            <th>${linha}</th>
+        `;
+
+        for(let coluna of colunas){
+
+            let bits = linha + coluna;
+
+            const indice =
+            parseInt(bits, 2);
+
+            const ativo =
+            mintermos.includes(indice);
+
+            html += `
+                <td class="
+                    ${ativo ? 'destaque' : ''}
+                ">
+                    ${ativo ? 1 : 0}
+                    <br>
+                    <small>
+                        m${indice}
+                    </small>
+                </td>
+            `;
+        }
+
+        html += '</tr>';
+    }
+
+    html += '</table>';
+
+    html += `
+        <div class="info-kmap">
+
+            <h3>Informações do Mapa</h3>
+
+            <p>
+                O mapa foi organizado utilizando
+                Gray Code.
+            </p>
+
+            <p>
+                Os mintermos ativos aparecem
+                destacados em azul.
+            </p>
+
+            <p>
+                Cada célula representa um
+                mintermo do sistema lógico.
+            </p>
+
+            <h3>Resultado Simplificado</h3>
+
+            <p class="resultado-final">
+                ${simplificarKarnaugh(mintermos, n)}
+            </p>
+
+        </div>
+    `;
+
+    div.innerHTML = html;
+}
+
+</script>
+
+</body>
+</html>
