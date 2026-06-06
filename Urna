@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoteLogic - Urna Eletrônica Digital</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#07111f;
+    color:#fff;
+}
+
+.topo-governo{
+    background:#052e16;
+    padding:14px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:4px solid #facc15;
+}
+
+.topo-governo h1{
+    font-size:1.4rem;
+    color:white;
+}
+
+.topo-governo span{
+    font-size:.9rem;
+    color:#d1fae5;
+}
+
+.container{
+    max-width:1200px;
+    margin:30px auto;
+    padding:20px;
+}
+
+.titulo{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.titulo h2{
+    font-size:2.2rem;
+    color:#f8fafc;
+}
+
+.titulo p{
+    color:#cbd5e1;
+    margin-top:8px;
+}
+
+.area-urna{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.painel{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.tela{
+    background:#e5e7eb;
+    color:#020617;
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
+    min-height:220px;
+    border:3px solid #94a3b8;
+}
+
+.tela h3{
+    font-size:1.2rem;
+    margin-bottom:20px;
+}
+
+.numero{
+    background:white;
+    border:2px solid #64748b;
+    border-radius:10px;
+    font-size:3rem;
+    font-weight:bold;
+    letter-spacing:10px;
+    padding:10px;
+    width:180px;
+    margin:0 auto 20px;
+}
+
+.info{
+    font-size:1.4rem;
+    font-weight:bold;
+}
+
+.candidatos{
+    margin-top:22px;
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:20px;
+}
+
+.candidatos h3{
+    text-align:center;
+    color:#93c5fd;
+    margin-bottom:15px;
+}
+
+.candidato{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#1e293b;
+    border:1px solid #475569;
+    border-radius:10px;
+    padding:13px 18px;
+    margin-bottom:10px;
+}
+
+.numero-candidato{
+    background:#2563eb;
+    padding:7px 18px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.teclado{
+    margin-top:22px;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+}
+
+.tecla{
+    background:#1e293b;
+    border:1px solid #475569;
+    color:white;
+    padding:20px;
+    border-radius:10px;
+    font-size:1.5rem;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.tecla:hover{
+    background:#334155;
+    transform:scale(1.03);
+}
+
+.branco{
+    background:#f8fafc;
+    color:#020617;
+}
+
+.corrige{
+    background:#b45309;
+}
+
+.confirma{
+    background:#047857;
+    grid-column:span 2;
+}
+
+.resultado h3{
+    color:#93c5fd;
+    margin-bottom:18px;
+    text-align:center;
+}
+
+.box{
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:18px;
+}
+
+.box h4{
+    color:#facc15;
+    margin-bottom:10px;
+}
+
+.voltar{
+    margin-top:25px;
+    display:inline-block;
+    background:#2563eb;
+    color:white;
+    padding:12px 24px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+@media(max-width:850px){
+    .area-urna{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topo-governo">
+    <h1>🇧🇷 VoteLogic</h1>
+    <span>Sistema Digital de Votação</span>
+</header>
+
+<div class="container">
+
+    <section class="titulo">
+        <h2>Urna Eletrônica Digital</h2>
+        <p>Ambiente simulado para votação, apuração e análise lógica.</p>
+    </section>
+
+    <section class="area-urna">
+
+        <div class="painel">
+
+            <div class="tela">
+                <h3>SEU VOTO PARA</h3>
+
+                <div class="numero" id="numeroDigitado">__</div>
+
+                <div class="info" id="candidatoInfo">
+                    Digite o número do candidato
+                </div>
+            </div>
+
+            <div class="candidatos">
+                <h3>📋 Candidatos</h3>
+
+                <div class="candidato">
+                    <span class="numero-candidato">10</span>
+                    <span>👨 João</span>
+                </div>
+
+                <div class="candidato">
+                    <span class="numero-candidato">20</span>
+                    <span>👩 Maria</span>
+                </div>
+
+                <div class="candidato">
+                    <span class="numero-candidato">30</span>
+                    <span>👨 Carlos</span>
+                </div>
+
+                <div class="candidato">
+                    <span class="numero-candidato">40</span>
+                    <span>👩 Ana</span>
+                </div>
+            </div>
+
+            <div class="teclado">
+                <button class="tecla" onclick="digitar('1')">1</button>
+                <button class="tecla" onclick="digitar('2')">2</button>
+                <button class="tecla" onclick="digitar('3')">3</button>
+
+                <button class="tecla" onclick="digitar('4')">4</button>
+                <button class="tecla" onclick="digitar('5')">5</button>
+                <button class="tecla" onclick="digitar('6')">6</button>
+
+                <button class="tecla" onclick="digitar('7')">7</button>
+                <button class="tecla" onclick="digitar('8')">8</button>
+                <button class="tecla" onclick="digitar('9')">9</button>
+
+                <button class="tecla branco" onclick="votarBranco()">Branco</button>
+                <button class="tecla" onclick="digitar('0')">0</button>
+                <button class="tecla corrige" onclick="corrigir()">Corrige</button>
+
+                <button class="tecla confirma" onclick="confirmar()">Confirma</button>
+            </div>
+
+        </div>
+
+        <div class="painel resultado">
+
+            <h3>📊 Apuração Oficial</h3>
+
+            <div class="box">
+                <h4>Resultado da Eleição</h4>
+                <p id="votos">
+                    João: 0 votos<br>
+                    Maria: 0 votos<br>
+                    Carlos: 0 votos<br>
+                    Ana: 0 votos<br>
+                    Brancos: 0 votos
+                </p>
+            </div>
+
+            <div class="box">
+                <h4>Vencedor</h4>
+                <p id="vencedor">🏆 Nenhum voto registrado</p>
+            </div>
+
+            <div class="box">
+                <h4>Status do Sistema</h4>
+                <p>Sistema seguro, digital e em funcionamento.</p>
+            </div>
+
+            <a href="index.html" class="voltar">← Voltar para o início</a>
+
+        </div>
+
+    </section>
+
+</div>
+
+<script>
+let numero = "";
+
+let votos = {
+    joao:0,
+    maria:0,
+    carlos:0,
+    ana:0,
+    branco:0
+};
+
+function digitar(valor){
+    if(numero.length < 2){
+        numero += valor;
+        atualizarTela();
+    }
+}
+
+function atualizarTela(){
+    document.getElementById("numeroDigitado").innerHTML = numero || "__";
+
+    let info = document.getElementById("candidatoInfo");
+
+    if(numero === "10"){
+        info.innerHTML = "👨 João";
+    }else if(numero === "20"){
+        info.innerHTML = "👩 Maria";
+    }else if(numero === "30"){
+        info.innerHTML = "👨 Carlos";
+    }else if(numero === "40"){
+        info.innerHTML = "👩 Ana";
+    }else if(numero.length === 2){
+        info.innerHTML = "❌ Candidato não encontrado";
+    }else{
+        info.innerHTML = "Digite o número do candidato";
+    }
+}
+
+function corrigir(){
+    numero = "";
+    atualizarTela();
+}
+
+function votarBranco(){
+    votos.branco++;
+    atualizarVotos();
+    alert("Voto em branco registrado.");
+    corrigir();
+}
+
+function confirmar(){
+    if(numero === "10"){
+        votos.joao++;
+    }else if(numero === "20"){
+        votos.maria++;
+    }else if(numero === "30"){
+        votos.carlos++;
+    }else if(numero === "40"){
+        votos.ana++;
+    }else{
+        alert("Número inválido. Corrija o voto.");
+        return;
+    }
+
+    atualizarVotos();
+    alert("Voto confirmado com sucesso.");
+    corrigir();
+}
+
+function atualizarVotos(){
+    document.getElementById("votos").innerHTML = `
+        João: ${votos.joao} votos<br>
+        Maria: ${votos.maria} votos<br>
+        Carlos: ${votos.carlos} votos<br>
+        Ana: ${votos.ana} votos<br>
+        Brancos: ${votos.branco} votos
+    `;
+
+    let maior = Math.max(votos.joao, votos.maria, votos.carlos, votos.ana);
+    let vencedor = "Nenhum";
+
+    if(maior > 0){
+        if(maior === votos.joao) vencedor = "João";
+        if(maior === votos.maria) vencedor = "Maria";
+        if(maior === votos.carlos) vencedor = "Carlos";
+        if(maior === votos.ana) vencedor = "Ana";
+    }
+
+    document.getElementById("vencedor").innerHTML = "🏆 " + vencedor;
+}
+</script>
+
+</body>
+</html>
