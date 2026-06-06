@@ -303,6 +303,31 @@ body{
             </div>
 
             <div class="box">
+    <h4>Expressão Booleana Gerada</h4>
+    <p id="expressao">Nenhuma expressão gerada</p>
+</div>
+
+<div class="box">
+    <h4>Expressão Otimizada</h4>
+    <p id="otimizada">-</p>
+</div>
+
+<div class="box">
+    <h4>Mintermos</h4>
+    <p id="mintermos">-</p>
+</div>
+
+<div class="box">
+    <h4>Maxtermos</h4>
+    <p id="maxtermos">-</p>
+</div>
+
+<div class="box">
+    <h4>Mapa de Karnaugh</h4>
+    <div id="karnaugh">Nenhum dado disponível</div>
+</div>
+
+            <div class="box">
                 <h4>Vencedor</h4>
                 <p id="vencedor">🏆 Nenhum voto registrado</p>
             </div>
@@ -329,6 +354,13 @@ let votos = {
     carlos:0,
     ana:0,
     branco:0
+};
+
+const expressoes = {
+    joao:"A·B",
+    maria:"A·C",
+    carlos:"B·D",
+    ana:"C·D"
 };
 
 function digitar(valor){
@@ -409,6 +441,103 @@ function atualizarVotos(){
     }
 
     document.getElementById("vencedor").innerHTML = "🏆 " + vencedor;
+
+    atualizarLogica();
+}
+
+function atualizarLogica(){
+
+    let termos = [];
+
+    if(votos.joao > 0) termos.push(expressoes.joao);
+    if(votos.maria > 0) termos.push(expressoes.maria);
+    if(votos.carlos > 0) termos.push(expressoes.carlos);
+    if(votos.ana > 0) termos.push(expressoes.ana);
+
+    if(termos.length === 0){
+        document.getElementById("expressao").innerHTML =
+        "Nenhuma expressão gerada";
+
+        document.getElementById("otimizada").innerHTML = "-";
+        document.getElementById("mintermos").innerHTML = "-";
+        document.getElementById("maxtermos").innerHTML = "-";
+        document.getElementById("karnaugh").innerHTML =
+        "Nenhum dado disponível";
+        return;
+    }
+
+    let expressao = termos.join(" + ");
+
+    document.getElementById("expressao").innerHTML =
+    "F = " + expressao;
+
+    let simplificada = expressao
+        .replace("A·B + A·C","A(B+C)")
+        .replace("B·D + C·D","D(B+C)");
+
+    document.getElementById("otimizada").innerHTML =
+    "F = " + simplificada;
+
+    let mintermos = [];
+
+    if(votos.joao > 0) mintermos.push(12);
+    if(votos.maria > 0) mintermos.push(10);
+    if(votos.carlos > 0) mintermos.push(5);
+    if(votos.ana > 0) mintermos.push(3);
+
+    document.getElementById("mintermos").innerHTML =
+    "Σm(" + mintermos.join(", ") + ")";
+
+    let maxtermos = [];
+
+    for(let i=0;i<16;i++){
+        if(!mintermos.includes(i)){
+            maxtermos.push(i);
+        }
+    }
+
+    document.getElementById("maxtermos").innerHTML =
+    "ΠM(" + maxtermos.join(", ") + ")";
+
+    document.getElementById("karnaugh").innerHTML = `
+    <table border="1" style="width:100%;text-align:center;border-collapse:collapse">
+        <tr>
+            <th></th>
+            <th>00</th>
+            <th>01</th>
+            <th>11</th>
+            <th>10</th>
+        </tr>
+        <tr>
+            <th>00</th>
+            <td>0</td>
+            <td>${votos.ana>0?1:0}</td>
+            <td>0</td>
+            <td>${votos.maria>0?1:0}</td>
+        </tr>
+        <tr>
+            <th>01</th>
+            <td>0</td>
+            <td>${votos.carlos>0?1:0}</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <th>11</th>
+            <td>${votos.joao>0?1:0}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <th>10</th>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+        </tr>
+    </table>
+    `;
 }
 </script>
 
