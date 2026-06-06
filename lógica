@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoteLogic - Lógica Booleana</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#0f172a;
+    color:white;
+    padding:30px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.topo{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.topo h1{
+    color:#93c5fd;
+    font-size:2.4rem;
+}
+
+.topo p{
+    color:#cbd5e1;
+    margin-top:10px;
+}
+
+.explicacao,
+.box{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:22px;
+}
+
+.explicacao h2,
+.box h2{
+    color:#93c5fd;
+    margin-bottom:15px;
+}
+
+.explicacao p{
+    color:#e2e8f0;
+    line-height:1.6;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+    gap:18px;
+}
+
+.card{
+    background:#1e293b;
+    border:1px solid #475569;
+    border-radius:16px;
+    padding:20px;
+    text-align:center;
+}
+
+.card h3{
+    color:#facc15;
+    margin-bottom:10px;
+}
+
+.codigo{
+    font-size:1.8rem;
+    color:#38bdf8;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+.formula{
+    background:#020617;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:18px;
+    margin-top:12px;
+    color:#e0f2fe;
+    font-size:1.1rem;
+    overflow-x:auto;
+}
+
+.destaque{
+    color:#22c55e;
+    font-weight:bold;
+}
+
+.tabela{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+.tabela th,
+.tabela td{
+    border:1px solid #334155;
+    padding:14px;
+    text-align:center;
+}
+
+.tabela th{
+    background:#1e293b;
+    color:#93c5fd;
+}
+
+.tabela td{
+    background:#0f172a;
+}
+
+.voltar{
+    display:inline-block;
+    margin-top:10px;
+    background:#2563eb;
+    color:white;
+    padding:13px 24px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="topo">
+        <h1>🔗 Lógica Booleana</h1>
+        <p>Entenda como cada voto da urna vira uma expressão lógica.</p>
+    </div>
+
+    <div class="explicacao">
+        <h2>Como funciona?</h2>
+        <p>
+            Cada candidato recebe um código binário. Quando o eleitor confirma um voto,
+            aquele código é considerado como valor verdadeiro, ou seja, resultado 
+            <strong>F = 1</strong>. Assim, o sistema consegue transformar os votos em
+            uma expressão booleana simples.
+        </p>
+    </div>
+
+    <div class="box">
+        <h2>Códigos dos candidatos</h2>
+
+        <div class="cards">
+            <div class="card">
+                <h3>João</h3>
+                <p>Número: 10</p>
+                <div class="codigo">0001</div>
+                <p>Mintermo: <span class="destaque">m1</span></p>
+            </div>
+
+            <div class="card">
+                <h3>Maria</h3>
+                <p>Número: 20</p>
+                <div class="codigo">0011</div>
+                <p>Mintermo: <span class="destaque">m3</span></p>
+            </div>
+
+            <div class="card">
+                <h3>Carlos</h3>
+                <p>Número: 30</p>
+                <div class="codigo">0101</div>
+                <p>Mintermo: <span class="destaque">m5</span></p>
+            </div>
+
+            <div class="card">
+                <h3>Ana</h3>
+                <p>Número: 40</p>
+                <div class="codigo">1001</div>
+                <p>Mintermo: <span class="destaque">m9</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="box">
+        <h2>Leitura simples dos votos</h2>
+
+        <table class="tabela">
+            <tr>
+                <th>Candidato</th>
+                <th>Voto digitado</th>
+                <th>Código lógico</th>
+                <th>Resultado</th>
+            </tr>
+
+            <tr>
+                <td>João</td>
+                <td>10</td>
+                <td>A'B'C'D</td>
+                <td>F = 1</td>
+            </tr>
+
+            <tr>
+                <td>Maria</td>
+                <td>20</td>
+                <td>A'B'CD</td>
+                <td>F = 1</td>
+            </tr>
+
+            <tr>
+                <td>Carlos</td>
+                <td>30</td>
+                <td>A'BC'D</td>
+                <td>F = 1</td>
+            </tr>
+
+            <tr>
+                <td>Ana</td>
+                <td>40</td>
+                <td>AB'C'D</td>
+                <td>F = 1</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="box">
+        <h2>Expressão Booleana Final</h2>
+
+        <p>
+            Como qualquer um desses votos pode ativar o sistema, usamos o operador
+            lógico <strong>OU</strong>.
+        </p>
+
+        <div class="formula">
+            F = A'B'C'D + A'B'CD + A'BC'D + AB'C'D
+        </div>
+
+        <div class="formula">
+            F = Σ(1, 3, 5, 9)
+        </div>
+    </div>
+
+    <div class="box">
+        <h2>Explicação bem simples</h2>
+
+        <p>
+            Se o voto for em João, Maria, Carlos ou Ana, o sistema entende como
+            <span class="destaque">voto válido</span>.  
+            Por isso, cada candidato representa uma possibilidade verdadeira na lógica.
+        </p>
+    </div>
+
+    <a href="index.html" class="voltar">🏠 Voltar ao Início</a>
+
+</div>
+
+</body>
+</html>
