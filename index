@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoteLogic</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<main>
+
+<h1>VoteLogic</h1>
+
+<p>
+    Plataforma de Lógica Digital<br>
+    e Sistema de Votação
+</p>
+
+<button class="conta" onclick="window.location.href='conta.html'">
+    👤 Conta
+</button>
+
+<div class="cards">
+
+    <div class="card" onclick="window.location.href='urna.html'">
+        <span>🗳️</span>
+        <h2>Urna Eletrônica Digital</h2>
+    </div>
+
+    <div class="card" onclick="window.location.href='logica.html'">
+        <span>🔗</span>
+        <h2>Lógica Booleana</h2>
+    </div>
+
+    <div class="card" onclick="window.location.href='tabela.html'">
+        <span>📊</span>
+        <h2>Tabela Verdade</h2>
+    </div>
+
+</div>
+
+</main>
+
+<div class="particles"></div>
+
+<script>
+    function abrirConta(){
+    alert("Área da conta em desenvolvimento");
+}
+</script>
+
+</body>
+</html>
+<style>
+    *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+h1{
+    font-size:3rem;
+    margin-bottom:10px;
+    text-align:center;
+    padding:20px;
+}
+p{
+    margin-top: -35px;
+    margin-bottom: 35px;
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    text-align: center;
+    line-height: 1.4;
+}
+
+body{
+    min-height:100vh;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#0f172a);
+    color:white;
+}
+
+header{
+    display:flex;
+    justify-content:flex-end;
+    padding:20px;
+}
+
+
+    .conta{
+    position:fixed;
+    top:20px;
+    right:20px;
+
+    padding:12px 20px;
+    border-radius:30px;
+    border:none;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.conta:hover{
+    transform:scale(1.05);
+}
+
+
+main{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin-top:40px;
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:50px;
+}
+
+.cards{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.card{
+    width:250px;
+    height:300px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border:2px solid rgba(255,255,255,0.15);
+    border-radius:25px;
+    padding:40px;
+    text-align:center;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+}
+
+.card span{
+    font-size:60px;
+}
+
+.card h2{
+    margin-top:20px;
+}
+
+.assistencia{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    padding:12px 20px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+}
+.particles{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    pointer-events:none;
+    background-image:
+    radial-gradient(circle,#ffffff55 1px,transparent 1px);
+    background-size:50px 50px;
+    animation:moverParticulas 20s linear infinite;
+}
+
+@keyframes moverParticulas{
+    from{
+        transform:translateY(0);
+    }
+    to{
+        transform:translateY(-100px);
+    }
+}
+
+</style>
