@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoteLogic - Tabela Verdade</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#0f172a;
+    color:white;
+    padding:30px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.topo{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.topo h1{
+    color:#93c5fd;
+    font-size:2.5rem;
+}
+
+.topo p{
+    color:#cbd5e1;
+    margin-top:10px;
+    font-size:1.1rem;
+}
+
+.explicacao{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:25px;
+}
+
+.explicacao h2{
+    color:#facc15;
+    margin-bottom:12px;
+}
+
+.explicacao p{
+    color:#e2e8f0;
+    line-height:1.6;
+}
+
+.tabela-box{
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:18px;
+    padding:25px;
+    overflow-x:auto;
+}
+
+.tabela-box h2{
+    color:#93c5fd;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th{
+    background:#1e293b;
+    color:#93c5fd;
+    padding:16px;
+    border:1px solid #334155;
+    font-size:1rem;
+}
+
+td{
+    text-align:center;
+    padding:15px;
+    border:1px solid #334155;
+    color:#f8fafc;
+}
+
+tr:nth-child(even){
+    background:#0f172a;
+}
+
+tr:nth-child(odd){
+    background:#111827;
+}
+
+.resultado-1{
+    background:#047857;
+    color:white;
+    font-weight:bold;
+    border-radius:6px;
+    padding:6px 12px;
+    display:inline-block;
+}
+
+.resultado-0{
+    background:#334155;
+    color:white;
+    font-weight:bold;
+    border-radius:6px;
+    padding:6px 12px;
+    display:inline-block;
+}
+
+.legenda{
+    margin-top:18px;
+    color:#cbd5e1;
+    line-height:1.6;
+}
+
+.voltar{
+    display:inline-block;
+    margin-top:25px;
+    background:#2563eb;
+    color:white;
+    padding:13px 24px;
+    border-radius:30px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.voltar:hover{
+    background:#1d4ed8;
+    transform:translateY(-2px);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="topo">
+        <h1>📊 Tabela Verdade</h1>
+        <p>Representação lógica das combinações possíveis do sistema de votação.</p>
+    </div>
+
+    <div class="explicacao">
+        <h2>Como entender esta tabela?</h2>
+        <p>
+            A tabela verdade mostra todas as possibilidades de entrada das variáveis
+            <strong>A, B, C e D</strong>. Cada linha representa uma combinação lógica.
+            A coluna <strong>F</strong> mostra o resultado final: 
+            <strong>1</strong> significa verdadeiro/ativado e 
+            <strong>0</strong> significa falso/desativado.
+        </p>
+    </div>
+
+    <div class="tabela-box">
+        <h2>Tabela Verdade do Sistema</h2>
+
+        <table>
+            <tr>
+                <th>A</th>
+                <th>B</th>
+                <th>C</th>
+                <th>D</th>
+                <th>Resultado F</th>
+            </tr>
+
+            <tr><td>0</td><td>0</td><td>0</td><td>0</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>0</td><td>0</td><td>0</td><td>1</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>0</td><td>0</td><td>1</td><td>0</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>0</td><td>0</td><td>1</td><td>1</td><td><span class="resultado-0">0</span></td></tr>
+
+            <tr><td>0</td><td>1</td><td>0</td><td>0</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>0</td><td>1</td><td>0</td><td>1</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>0</td><td>1</td><td>1</td><td>0</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>0</td><td>1</td><td>1</td><td>1</td><td><span class="resultado-0">0</span></td></tr>
+
+            <tr><td>1</td><td>0</td><td>0</td><td>0</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>1</td><td>0</td><td>0</td><td>1</td><td><span class="resultado-1">1</span></td></tr>
+            <tr><td>1</td><td>0</td><td>1</td><td>0</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>1</td><td>0</td><td>1</td><td>1</td><td><span class="resultado-0">0</span></td></tr>
+
+            <tr><td>1</td><td>1</td><td>0</td><td>0</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>1</td><td>1</td><td>0</td><td>1</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>1</td><td>1</td><td>1</td><td>0</td><td><span class="resultado-0">0</span></td></tr>
+            <tr><td>1</td><td>1</td><td>1</td><td>1</td><td><span class="resultado-0">0</span></td></tr>
+        </table>
+
+        <div class="legenda">
+            <p><strong>Legenda:</strong></p>
+            <p>0 = condição falsa ou desligada</p>
+            <p>1 = condição verdadeira ou ativada</p>
+        </div>
+    </div>
+
+    <a href="index.html" class="voltar">🏠 Voltar ao Início</a>
+
+</div>
+
+</body>
+</html>
